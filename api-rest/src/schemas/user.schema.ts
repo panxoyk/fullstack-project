@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { Gender } from "../types/types"
+import { Gender } from "../types"
 
 const dateFormat = /^(0?[1-9]|[12][0-9]|3[01])\-(0?[1-9]|1[012])\-(19|20)\d\d$/
 

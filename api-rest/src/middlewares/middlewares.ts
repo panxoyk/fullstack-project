@@ -1,7 +1,7 @@
-import { HttpError } from "../types/types"
+import { HttpError } from "../types"
 import { Request, Response, NextFunction } from "express"
 import { AnyZodObject, ZodError } from "zod"
-import { config } from "../config/config"
+import { config } from "../config"
 import jwt, { JsonWebTokenError } from "jsonwebtoken"
 
 export const httpError = (err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
@@ -38,11 +38,18 @@ export const validateUserSchema = (schema: AnyZodObject) =>
 
 export const auth = (req: Request, _res: Response, next: NextFunction) => {
     try {
-        const token = req.header("Auth")?.replace("Bearer ", "")
-        if (token && jwt.verify(token, config.secretKey)) {
+        const { token } = req.cookies
+        console.log(req)
+
+        if (!token) {
+            next({ status: 401, message: "Missing token" })
+        }
+
+        const user = jwt.verify(token, config.secretKey)
+        if(user) {
             next()
         } else {
-            next({ status: 401, message: "Missing token" })
+            next({ status: 403, message: "Invalid token" })
         }
 
     } catch (error) {

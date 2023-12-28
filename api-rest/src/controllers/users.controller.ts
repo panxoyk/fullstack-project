@@ -2,7 +2,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { NextFunction, Request, Response } from "express"
 import UserModel from "../models/user.model"
-import { config } from "../config/config"
+import { config } from "../config"
 
 export const getAllUsers = async (_req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,30 +21,6 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
         user
             ? res.status(200).send(user)
             : next({ status: 404, message: "User not found" })
-
-    } catch (error) {
-        next(error)
-    }
-}
-
-export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { email, password } = req.body
-        const user = await UserModel.findOne({ email })
-        if (user) {
-            const validPassword = await bcrypt.compare(password, user.passwordHash)
-            if (validPassword) {
-                const { _id, email, name } = user
-                const session = { id: _id, email, name }
-                const token = jwt.sign(session, config.secretKey, { expiresIn: "2d" })
-                console.log("Bienvenido " + session.name)
-                res.header("Auth", token).status(200).send(session)
-            } else {
-                next({ status: 401, message: "Invalid credentials" })
-            }
-        } else {
-            next({ status: 404, message: "User not found" })
-        }
 
     } catch (error) {
         next(error)
@@ -89,6 +65,40 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
         user
             ? res.status(200).send(user)
             : next({ status: 404, message: "User not found" })
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email, password } = req.body
+        const user = await UserModel.findOne({ email })
+        if (user) {
+            const validPassword = await bcrypt.compare(password, user.passwordHash)
+            if (validPassword) {
+                const { _id, email, name } = user
+                const session = { id: _id, email, name }
+                const token = jwt.sign(session, config.secretKey, { expiresIn: "1d" })
+                console.log("Bienvenido " + session.name)
+                res.cookie("token", token).status(200).send(session)
+            } else {
+                next({ status: 401, message: "Invalid credentials" })
+            }
+        } else {
+            next({ status: 404, message: "User not found" })
+        }
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const logoutUser = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log("Hasta pronto!")
+        res.cookie("token", "", { expires: new Date(0) }).status(200).end()
 
     } catch (error) {
         next(error)

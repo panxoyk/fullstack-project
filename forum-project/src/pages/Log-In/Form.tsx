@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { LoginValues, resolver } from "./login"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { loginUser } from "@/services/user.service"
 
 const LoginForm = () => {
     const form = useForm<LoginValues>({
@@ -13,8 +14,9 @@ const LoginForm = () => {
         }
     })
 
-    const onSubmit = (data: LoginValues) => {
-        console.log(data)
+    const onSubmit = async (data: LoginValues) => {
+        const res = await loginUser(data)
+        console.log(res)
     }
 
     return (

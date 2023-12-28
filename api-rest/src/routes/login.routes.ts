@@ -5,6 +5,6 @@ import { LoginUserSchema } from "../schemas/login.schema"
 
 const router = Router()
 
-router.post("/", validateUserSchema(LoginUserSchema), controller.loginUser)
+router.post("/", [validateUserSchema(LoginUserSchema)], controller.loginUser)
 
 export default router
