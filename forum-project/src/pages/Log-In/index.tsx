@@ -1,20 +1,20 @@
 import Container from "@/components/Container"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Link } from "react-router-dom"
-import LoginForm from "./LoginForm"
+import Form from "./Form"
 
 const Login = () => {
     return (
         <>
-            <div className="h-screen flex flex-col justify-center">
+            <div className="flex flex-col justify-center my-2 sm:h-screen">
                 <Container>
                     <Card className="w-[360px] sm:w-[512px]">
                         <CardHeader className="space-y-1">
-                            <CardTitle className="text-2xl"> Log in </CardTitle>
-                            <CardDescription> Enter your email and password to log in </CardDescription>
+                            <CardTitle className="text-2xl text-center"> Log in </CardTitle>
+                            <CardDescription className="text-center"> Enter your email and password to log in </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <LoginForm /> HOLA
+                            <Form />
                         </CardContent>
                         <CardFooter className="flex flex-col">
                             <span className="text-sm text-muted-foreground">
