@@ -1,0 +1,8 @@
+# Entorno
+.env
+
+# Compilación
+/build
+
+# Dependencias
+/node_modules
