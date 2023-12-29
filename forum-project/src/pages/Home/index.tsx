@@ -1,6 +1,6 @@
 import NavBar from "@/components/NavBar"
-import { logout } from "@/services/user.service"
-import { useSessionStore } from "@/store/session.store"
+import { logout } from "@/services/auth.service"
+import { useSessionStore } from "@/hooks/session.store"
 
 const Home = () => {
     const { session, deleteSession } = useSessionStore()

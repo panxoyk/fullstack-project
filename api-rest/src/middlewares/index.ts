@@ -24,7 +24,7 @@ export const notFound = (_req: Request, res: Response) => {
     return res.status(404).send({ message: "Endpoint not found" })
 }
 
-export const validateUserSchema = (schema: AnyZodObject) =>
+export const validateSchema = (schema: AnyZodObject) =>
     (req: Request, _res: Response, next: NextFunction) => {
         try {
             const { body, params } = req

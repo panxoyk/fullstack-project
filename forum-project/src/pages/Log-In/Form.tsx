@@ -1,18 +1,23 @@
+import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
+import { zodResolver } from "@hookform/resolvers/zod"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { LoginValues, resolver } from "./login"
-import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { login } from "@/services/user.service"
-import { useNavigate } from "react-router-dom"
-import { useSessionStore } from "@/store/session.store"
+
+import { LoginSchema } from "@/schemas/login.schema"
+import { login } from "@/services/auth.service"
+import { useSessionStore } from "@/hooks/session.store"
+import { LoginValues } from "@/types"
+
 
 const LoginForm = () => {
     const navigate = useNavigate()
     const { setSession } = useSessionStore()
 
     const form = useForm<LoginValues>({
-        resolver,
+        resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
             password: "",
@@ -49,7 +54,7 @@ const LoginForm = () => {
                     <FormItem>
                         <FormLabel> Password </FormLabel>
                         <FormControl>
-                            <Input autoComplete="no" {...field} />
+                            <Input type="password" {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>

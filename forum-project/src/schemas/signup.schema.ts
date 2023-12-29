@@ -1,5 +1,4 @@
 import * as z from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
 
 const NameSchema = z
     .string()
@@ -27,7 +26,7 @@ const BirthSchema = z
 const GenderSchema = z
     .enum(["male", "female", "other"], { required_error: "A gender is required" })
 
-const FormSchema = z.object({
+export const SignupSchema = z.object({
     name: NameSchema,
     email: EmailSchema,
     password: PasswordSchema,
@@ -38,7 +37,3 @@ const FormSchema = z.object({
     path: ["passwordConfirm"],
     message: "Passwords do not match"
 })
-
-export type SignupValues = z.infer<typeof FormSchema>
-
-export const resolver = zodResolver(FormSchema)

@@ -6,11 +6,9 @@ const EmailSchema = z
 const PasswordSchema = z
     .string({ required_error: "Password is required" })
 
-const LoginSchema = z.object({
-    email: EmailSchema,
-    password: PasswordSchema,
-})
-
-export const LoginUserSchema = z.object({
-    body: LoginSchema
+export const LoginSchema = z.object({
+    body: z.object({
+        email: EmailSchema,
+        password: PasswordSchema,
+    })
 })

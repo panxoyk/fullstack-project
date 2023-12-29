@@ -1,24 +1,28 @@
+import { useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
-import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { SignupValues, resolver } from "./signup"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useSessionStore } from "@/store/session.store"
-import { signup } from "@/services/user.service"
-import { useNavigate } from "react-router-dom"
+
+import { cn } from "@/utils/lib"
+import { useSessionStore } from "@/hooks/session.store"
+import { signup } from "@/services/auth.service"
+import { SignupSchema } from "@/schemas/signup.schema"
+import { SignupValues } from "@/types"
 
 const SignupForm = () => {
-    const { setSession } = useSessionStore()
     const navigate = useNavigate()
+    const { setSession } = useSessionStore()
 
     const form = useForm<SignupValues>({
-        resolver,
+        resolver: zodResolver(SignupSchema),
         defaultValues: {
             name: "",
             email: "",

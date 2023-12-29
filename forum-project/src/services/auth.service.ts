@@ -1,11 +1,10 @@
-import { LoginValues } from "@/pages/Log-In/login"
 import api from "@/api"
-import { SignupValues } from "@/pages/Sign-Up/signup"
-import { formatDate } from "@/lib/utils"
+import { LoginValues, SignupValues } from "@/types"
+import { formatDate } from "@/utils/lib"
 
-export const login = async (login: LoginValues) => {
+export const login = async (values: LoginValues) => {
     try {
-        const { data } = await api.post("/login", login)
+        const { data } = await api.post("/login", values)
         return data
     } catch (error) {
         throw error
