@@ -39,14 +39,12 @@ export const validateUserSchema = (schema: AnyZodObject) =>
 export const auth = (req: Request, _res: Response, next: NextFunction) => {
     try {
         const { token } = req.cookies
-        console.log(req)
-
         if (!token) {
-            next({ status: 401, message: "Missing token" })
+            next({ status: 403, message: "Missing token" })
         }
-
         const user = jwt.verify(token, config.secretKey)
         if(user) {
+            console.log(user)
             next()
         } else {
             next({ status: 403, message: "Invalid token" })

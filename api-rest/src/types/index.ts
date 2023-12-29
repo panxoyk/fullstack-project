@@ -29,3 +29,9 @@ export interface Config {
     dbUri: string,
     secretKey: string,
 }
+
+export interface Session {
+    id: string,
+    name: string,
+    email: string,
+}

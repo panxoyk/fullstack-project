@@ -3,9 +3,14 @@ import { Input } from "@/components/ui/input"
 import { LoginValues, resolver } from "./login"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { loginUser } from "@/services/user.service"
+import { login } from "@/services/user.service"
+import { useNavigate } from "react-router-dom"
+import { useSessionStore } from "@/store/session.store"
 
 const LoginForm = () => {
+    const navigate = useNavigate()
+    const { setSession } = useSessionStore()
+
     const form = useForm<LoginValues>({
         resolver,
         defaultValues: {
@@ -15,8 +20,10 @@ const LoginForm = () => {
     })
 
     const onSubmit = async (data: LoginValues) => {
-        const res = await loginUser(data)
-        console.log(res)
+        const session = await login(data)
+        setSession(session)
+        window.localStorage.setItem("session", JSON.stringify(session))
+        navigate("/")
     }
 
     return (
@@ -42,7 +49,7 @@ const LoginForm = () => {
                     <FormItem>
                         <FormLabel> Password </FormLabel>
                         <FormControl>
-                            <Input {...field} />
+                            <Input autoComplete="no" {...field} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>

@@ -2,7 +2,8 @@
 
 To Do:
 
-- crear sig model
+- jwt expiración -> auto logout
+- Permisos de urls en frontend
 
 Done:
 

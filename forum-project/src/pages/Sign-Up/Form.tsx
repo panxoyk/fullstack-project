@@ -9,8 +9,14 @@ import { CalendarIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { SignupValues, resolver } from "./signup"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { useSessionStore } from "@/store/session.store"
+import { signup } from "@/services/user.service"
+import { useNavigate } from "react-router-dom"
 
 const SignupForm = () => {
+    const { setSession } = useSessionStore()
+    const navigate = useNavigate()
+
     const form = useForm<SignupValues>({
         resolver,
         defaultValues: {
@@ -21,8 +27,11 @@ const SignupForm = () => {
         }
     })
 
-    const onSubmit = (data: SignupValues) => {
-        console.log(data)
+    const onSubmit = async (data: SignupValues) => {
+        const session = await signup(data)
+        setSession(session)
+        window.localStorage.setItem("session", JSON.stringify(session))
+        navigate("/")
     }
 
     return (
@@ -62,7 +71,7 @@ const SignupForm = () => {
                         <FormItem>
                             <FormLabel> Password </FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -75,7 +84,7 @@ const SignupForm = () => {
                         <FormItem>
                             <FormLabel> Confirm password </FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input type="password" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
