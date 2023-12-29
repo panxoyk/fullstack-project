@@ -1,5 +1,5 @@
 import { config } from "./config"
-import dbConnect from "./db/db"
+import dbConnect from "./db"
 import app from "./app"
 
 const port = config.port || 80
