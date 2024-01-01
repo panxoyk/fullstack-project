@@ -4,7 +4,7 @@ export enum Gender {
     Other = "other"
 }
 
-export interface User {
+export type User = {
     id: string,
     name: string,
     email: string,
@@ -15,7 +15,7 @@ export interface User {
 
 export type UserEntry = Omit<User, "id">
 
-export interface UserLogin {
+export type UserLogin = {
     email: string,
     passwordHash: string,
 }
@@ -24,7 +24,7 @@ export interface HttpError extends Error {
     status?: number
 }
 
-export interface Config {
+export type Config = {
     nodeEnv: string,
     port: number,
     dbUri: string,
@@ -32,7 +32,7 @@ export interface Config {
     refreshTokenKey: string,
 }
 
-export interface Session {
+export type Session = {
     id: string,
     name: string,
     email: string,
