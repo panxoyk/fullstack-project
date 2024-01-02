@@ -2,9 +2,9 @@
 
 To Do:
 
-- jwt expiración -> auto logout
 - Permisos de urls en frontend
 
 Done:
 
-- users ready
+- login/signup ui
+- users api
