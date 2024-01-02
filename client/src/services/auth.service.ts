@@ -5,8 +5,8 @@ import { formatDate } from "@/utils/lib"
 export const signup = async (values: SignupValues) => {
     try {
         const signup = { ...values, birth: formatDate(values.birth) }
-        const { data }: AccessTokenResponse = await api.post("/auth/signup", signup)
-        return data
+        const response: AccessTokenResponse = await api.post("/auth/signup", signup)
+        return response.data
     } catch (error: any) {
         throw new Error(error)
     }

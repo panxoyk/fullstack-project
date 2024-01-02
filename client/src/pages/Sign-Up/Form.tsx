@@ -34,11 +34,12 @@ const SignupForm = () => {
 
     const onSubmit = async (values: SignupValues) => {
         const data = await signup(values)
-        if(!data?.accessToken) {
+        const { accessToken } = data
+        if(!accessToken) {
             return
         }
-        setTokenItem(data.accessToken)
-        setSession(data.accessToken)
+        setTokenItem(accessToken)
+        setSession(accessToken)
         navigate("/")
     }
 

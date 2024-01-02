@@ -8,7 +8,7 @@ const api = axios.create({
 
 api.interceptors.request.use(async (req) => req, (error) => {
     console.log("REQUEST ERROR", error.request)
-    return Promise.reject(error)
+    return error
 })
 
 api.interceptors.response.use((res) => res, async (error) => {
@@ -31,6 +31,7 @@ api.interceptors.response.use((res) => res, async (error) => {
             return api(error.config)
         }
         default: {
+            console.log("error message:", errorMsg)
             break
         }
     }

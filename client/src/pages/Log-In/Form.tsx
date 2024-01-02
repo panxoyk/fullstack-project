@@ -1,3 +1,4 @@
+import { LoginValues } from "@/types"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -8,7 +9,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 
 import { LoginSchema } from "@/schemas/login.schema"
 import { login } from "@/services/auth.service"
-import { LoginValues } from "@/types"
 import { useSessionStore } from "@/hooks/useSessionStore"
 import { setTokenItem } from "@/utils/item/token"
 
@@ -27,15 +27,16 @@ const LoginForm = () => {
 
     const onSubmit = async (values: LoginValues) => {
         const data = await login(values)
-        if (!data?.accessToken) {
+        const { accessToken } = data
+        if (!accessToken) {
             form.setValue("email", "")
             form.setError("email", { message: ""} )
             form.setValue("password", "")
             form.setError("password", { message: ""} )
             return
         }
-        setTokenItem(data.accessToken)
-        setSession(data.accessToken)
+        setTokenItem(accessToken)
+        setSession(accessToken)
         navigate("/")
     }
 
