@@ -27,6 +27,7 @@ export interface HttpError extends Error {
 export type Config = {
     nodeEnv: string,
     port: number,
+    portOrigin: number,
     dbUri: string,
     accessTokenKey: string,
     refreshTokenKey: string,
@@ -34,6 +35,5 @@ export type Config = {
 
 export type Session = {
     id: string,
-    name: string,
     email: string,
 }

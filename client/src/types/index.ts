@@ -6,8 +6,19 @@ export type LoginValues = zod.infer<typeof LoginSchema>
 
 export type SignupValues = zod.infer<typeof SignupSchema>
 
-export interface Session {
+export type AccessTokenResponse = {
+    data: {
+        accessToken: string
+    }
+}
+
+export type Session = {
     id: string,
-    name: string,
+    email: string
+}
+
+export type User = {
+    id: string,
     email: string,
+    name: string
 }

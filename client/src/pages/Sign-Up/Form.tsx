@@ -12,10 +12,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
 import { cn } from "@/utils/lib"
-import { useSessionStore } from "@/hooks/session.store"
 import { signup } from "@/services/auth.service"
 import { SignupSchema } from "@/schemas/signup.schema"
 import { SignupValues } from "@/types"
+import { useSessionStore } from "@/hooks/useSessionStore"
+import { setTokenItem } from "@/utils/item/token"
 
 const SignupForm = () => {
     const navigate = useNavigate()
@@ -31,10 +32,13 @@ const SignupForm = () => {
         }
     })
 
-    const onSubmit = async (data: SignupValues) => {
-        const session = await signup(data)
-        setSession(session)
-        window.localStorage.setItem("session", JSON.stringify(session))
+    const onSubmit = async (values: SignupValues) => {
+        const data = await signup(values)
+        if(!data?.accessToken) {
+            return
+        }
+        setTokenItem(data.accessToken)
+        setSession(data.accessToken)
         navigate("/")
     }
 

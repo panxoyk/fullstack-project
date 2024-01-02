@@ -3,11 +3,12 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import router from "./routes/index"
 import { notFound, httpError } from "./middlewares"
+import { config } from "./config"
 
 const app = express()
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: `http://localhost:${config.portOrigin}`,
     credentials: true,
 }))
 app.use(express.json())

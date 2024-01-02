@@ -1,29 +1,37 @@
 import NavBar from "@/components/NavBar"
-import { logout, refresh } from "@/services/auth.service"
-import { useSessionStore } from "@/hooks/session.store"
+import { logout } from "@/services/auth.service"
 import { useNavigate } from "react-router-dom"
 import { Button } from "@/components/ui/button"
+import { useSessionStore } from "@/hooks/useSessionStore"
+import { removeTokenItem } from "@/utils/item/token"
+import { useFetchUsers } from "@/hooks/user"
 
 const Home = () => {
-    const { session, deleteSession } = useSessionStore()
     const navigate = useNavigate()
+    const { session, deleteSession } = useSessionStore()
+    const { data: users } = useFetchUsers()
 
-    const handleClick = async() => {
-        const { accessToken } = await refresh()
-        if (!accessToken) {
-            deleteSession()
-            return navigate("/")
-        }
-        await logout(accessToken)
+    const handleLogout = async() => {
+        await logout()
         deleteSession()
+        removeTokenItem()
+        location.reload()
+        navigate("/")
     }
-
-    if(session) return <h1> Hola {session.name} <Button onClick={handleClick}> Log out </Button> </h1>
 
     return (
         <>
             <header>
                 <NavBar />
+                {
+                    users?.map((user: any) => (
+                        <p key={user.id}> {user.name} </p>
+                    ))
+                }
+                {
+                    session ? <Button onClick={handleLogout}> Log out {session.email} </Button> : null
+                }
+
             </header>
         </>
     )

@@ -8,8 +8,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 
 import { LoginSchema } from "@/schemas/login.schema"
 import { login } from "@/services/auth.service"
-import { useSessionStore } from "@/hooks/session.store"
 import { LoginValues } from "@/types"
+import { useSessionStore } from "@/hooks/useSessionStore"
+import { setTokenItem } from "@/utils/item/token"
 
 
 const LoginForm = () => {
@@ -24,16 +25,17 @@ const LoginForm = () => {
         }
     })
 
-    const onSubmit = async (data: LoginValues) => {
-        const response = await login(data)
-        if(!response) {
-            // Por mientras
-            form.setError("password", { message: "" })
-            form.setError("email", { message: "" })
+    const onSubmit = async (values: LoginValues) => {
+        const data = await login(values)
+        if (!data?.accessToken) {
+            form.setValue("email", "")
+            form.setError("email", { message: ""} )
+            form.setValue("password", "")
+            form.setError("password", { message: ""} )
             return
         }
-        const { session } = response
-        setSession(session)
+        setTokenItem(data.accessToken)
+        setSession(data.accessToken)
         navigate("/")
     }
 
