@@ -1,21 +1,27 @@
-import { config } from "../config"
+import config from "../config"
 import jwt from "jsonwebtoken"
 import { Session, User } from "../types"
 
+const { accessToken, refreshToken } = config
+
 export const createAccessToken = (session: Session) => {
-    return jwt.sign(session, config.accessTokenKey, { expiresIn: 5 })
+    const { key, expiresIn } = accessToken
+    return jwt.sign(session, key, { expiresIn })
 }
 
 export const createRefreshToken = (session: Session) => {
-    return jwt.sign(session, config.refreshTokenKey, { expiresIn: "14d" })
+    const { expiresIn, key } = refreshToken
+    return jwt.sign(session, key, { expiresIn })
 }
 
-export const verifyAccessToken = (accessToken: string) => {
-    return jwt.verify(accessToken, config.refreshTokenKey)
+export const verifyAccessToken = (token: string) => {
+    const { key } = accessToken
+    return jwt.verify(token, key)
 }
 
-export const verifyRefreshToken = (refreshToken: string) => {
-    return jwt.verify(refreshToken, config.refreshTokenKey)
+export const verifyRefreshToken = (token: string) => {
+    const { key } = refreshToken
+    return jwt.verify(token, key)
 }
 
 export const createSession = (user: User) => {

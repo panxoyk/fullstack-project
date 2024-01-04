@@ -4,6 +4,17 @@ import Container from "@/components/Container"
 import { useSessionStore } from "@/hooks/useSessionStore"
 import { logout } from "@/services/auth.service"
 import { removeTokenItem } from "@/utils/item/token"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LogOut, Settings, User } from "lucide-react"
 
 const NavBar = () => {
     const navigate = useNavigate()
@@ -27,14 +38,47 @@ const NavBar = () => {
                     </div>
                     {
                         session
-                            ? <div className="p-2 flex flex-row items-center justify-between">
-                                <p> {session.email} </p>
-                                <Button onClick={handleLogout} variant={"outline"} className="text-base font-semibold mx-2"> LOG OUT </Button>
-                            </div>
-                            : <div className="p-2 flex flex-row items-center justify-between">
+                            ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant={"ghost"} className="relative size-8 rounded-full">
+                                        <Avatar>
+                                            <AvatarImage src="/profile.png" alt="profile picture" />
+                                            <AvatarFallback> U </AvatarFallback>
+                                        </Avatar>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" forceMount>
+                                    <DropdownMenuLabel className="font-normal">
+                                        <div>
+                                            <p className="text-sm font-medium leading-none"> {session.email} </p>
+                                        </div>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem>
+                                            <User size={16} className="mr-2" />
+                                            <span> Profile </span>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Settings size={16} className="mr-2" />
+                                            <span> Settings </span>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={handleLogout}>
+                                        <LogOut size={16} className="mr-2" />
+                                        <span> Log out </span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            )
+                            : (
+                            <div className="p-2 flex flex-row items-center justify-between">
                                 <NavLink to={"/login"}> <Button variant={"ghost"} className="text-base font-semibold mx-2"> LOG IN </Button> </NavLink>
                                 <NavLink to={"/signup"}> <Button variant={"outline"} className="text-base font-semibold mx-2"> SIGN UP </Button> </NavLink>
                             </div>
+                            )
                     }
 
                 </div>

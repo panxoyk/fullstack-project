@@ -1,10 +1,10 @@
 import { connect } from "mongoose"
-import { config } from "../config"
+import config from "../config"
 
 const dbConnect = async () => {
+    const { dbUri } = config
     try {
-        const uri = config.dbUri
-        await connect(uri)
+        await connect(dbUri)
 
         console.log("Connected to database")
     } catch (error) {

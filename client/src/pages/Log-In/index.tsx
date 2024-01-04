@@ -16,11 +16,17 @@ const Login = () => {
                         <CardContent>
                             <Form />
                         </CardContent>
-                        <CardFooter className="flex flex-col">
+                        <CardFooter className="flex flex-col gap-2">
                             <span className="text-sm text-muted-foreground">
                                 Don't have an account?
                                 <Link to={"/signup"}>
                                     <span className="text-primary"> Sign up </span>
+                                </Link>
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                                Back to
+                                <Link to={"/"}>
+                                    <span className="text-primary"> Home </span>
                                 </Link>
                             </span>
                         </CardFooter>

@@ -2,7 +2,7 @@ import { HttpError } from "../types"
 import { Request, Response, NextFunction } from "express"
 import { AnyZodObject, ZodError } from "zod"
 import jwt, { JsonWebTokenError } from "jsonwebtoken"
-import { config } from "../config"
+import config from "../config"
 
 export const httpError = (err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || 500
@@ -42,7 +42,8 @@ export const validateSchema = (schema: AnyZodObject) =>
 export const auth = (req: Request, _res: Response, next: NextFunction) => {
     try {
         const { auth } = req.headers
-        jwt.verify(auth as string, config.accessTokenKey)
+        const { key } = config.accessToken
+        jwt.verify(auth as string, key)
         next()
 
     } catch (error) {

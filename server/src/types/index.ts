@@ -24,13 +24,18 @@ export interface HttpError extends Error {
     status?: number
 }
 
+type tokenConfig = {
+    key: string,
+    expiresIn: string,
+}
+
 export type Config = {
     nodeEnv: string,
     port: number,
     portOrigin: number,
     dbUri: string,
-    accessTokenKey: string,
-    refreshTokenKey: string,
+    accessToken: tokenConfig
+    refreshToken: tokenConfig,
 }
 
 export type Session = {

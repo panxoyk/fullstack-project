@@ -3,7 +3,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import router from "./routes/index"
 import { notFound, httpError } from "./middlewares"
-import { config } from "./config"
+import config from "./config"
 
 const app = express()
 
